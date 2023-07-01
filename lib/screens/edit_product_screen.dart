@@ -58,6 +58,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               focusNode: _descriptionFocusNode,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
                     width: 100,
@@ -76,6 +77,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     decoration: InputDecoration(labelText: "ImageURL"),
                     keyboardType: TextInputType.url,
                     controller: _imageURLController,
+                    textInputAction: TextInputAction.done,
                   ),
                 )
               ],
