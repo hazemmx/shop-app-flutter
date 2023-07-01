@@ -46,6 +46,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _saveForm() {
+    final isValid = _form.currentState?.validate();
+    if (!isValid!) {
+      return;
+    }
     _form.currentState?.save();
     print(_editedProduct.title);
     print(_editedProduct.description);
@@ -67,6 +71,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
             child: ListView(
               children: [
                 TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please provide a proper value. ";
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(labelText: "Title"),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
@@ -89,6 +99,20 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_descriptionFocusNode);
                   },
+                  validator: (value) {
+                    // double x = double.parse(value.toString());
+                    if (value!.isEmpty) {
+                      return "Please provide a price. ";
+                    }
+                    if (double.tryParse(value.toString()) == null) {
+                      return "Please enter a vaild number .";
+                    }
+                    if (double.parse(value.toString()) <= 0) {
+                      return "Insert a number bigger than 0";
+                    }
+
+                    return null;
+                  },
                   onSaved: (newValue) {
                     _editedProduct = Product(
                         id: "",
@@ -110,6 +134,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         description: newValue.toString(),
                         price: _editedProduct.price,
                         imageUrl: _editedProduct.imageUrl);
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please provide a proper description. ";
+                    }
+                    if (value.toString().length < 10) {
+                      return "Minimum 10 Characters are required. ";
+                    }
+                    return null;
                   },
                 ),
                 Row(
@@ -141,6 +174,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               description: _editedProduct.description,
                               price: _editedProduct.price,
                               imageUrl: newValue.toString());
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please provide a proper URL. ";
+                          }
+                          if (!_imageURLController.text.startsWith("https") &&
+                              !_imageURLController.text.startsWith("http")) {
+                            return "Please provide a proper URL start. ";
+                          }
+                          if (!_imageURLController.text.endsWith("png") &&
+                              !_imageURLController.text.endsWith("jpg") &&
+                              !_imageURLController.text.endsWith("jpeg")) {
+                            return "Please provide a proper URL end. ";
+                          }
+                          return null;
                         },
                         onFieldSubmitted: (_) {
                           _saveForm();
