@@ -66,7 +66,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     decoration: BoxDecoration(
                         border: Border.all(width: 1, color: Colors.grey)),
                     child: _imageURLController.text.isEmpty
-                        ? Text("Enter a URL . ")
+                        ? Text("Enter a URL")
                         : FittedBox(
                             child: Image.network(_imageURLController.text),
                             fit: BoxFit.cover,
