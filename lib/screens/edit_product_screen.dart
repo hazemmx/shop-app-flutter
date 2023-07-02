@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/providers/products.dart';
 
 class EditProductScreen extends StatefulWidget {
   const EditProductScreen({super.key});
@@ -20,6 +21,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _form = GlobalKey<FormState>();
   var _editedProduct =
       Product(id: "", title: "", description: "", price: 0, imageUrl: "");
+  var _isInit = true;
 
   @override
   void dispose() {
@@ -45,16 +47,26 @@ class _EditProductScreenState extends State<EditProductScreen> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isInit) {
+      final productID = ModalRoute.of(context)!.settings.arguments as String;
+      _editedProduct =
+          Provider.of<Products>(context, listen: false).findbyID(productID);
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   void _saveForm() {
     final isValid = _form.currentState?.validate();
     if (!isValid!) {
       return;
     }
     _form.currentState?.save();
-    print(_editedProduct.title);
-    print(_editedProduct.description);
-    print(_editedProduct.price);
-    print(_editedProduct.imageUrl);
+    Provider.of<Products>(context, listen: false).addproduct(_editedProduct);
+    Navigator.of(context).pop();
   }
 
   @override
