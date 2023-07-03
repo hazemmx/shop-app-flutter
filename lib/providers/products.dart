@@ -84,4 +84,9 @@ class Products with ChangeNotifier {
   List<Product> get favouriteItems {
     return _items.where((ProductItem) => ProductItem.isFavorite).toList();
   }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((product) => product.id == id);
+    notifyListeners();
+  }
 }
