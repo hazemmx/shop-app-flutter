@@ -62,11 +62,11 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addproduct(Product product) {
+  Future<void> addproduct(Product product) {
     const urlString =
         'https://shop-app-test-315b9-default-rtdb.europe-west1.firebasedatabase.app/products.json';
     Uri uri = Uri.parse(urlString);
-    http
+    return http
         .post(uri,
             body: json.encode({
               'title': product.title,
