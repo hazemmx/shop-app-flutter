@@ -61,10 +61,20 @@ class Products with ChangeNotifier {
   //   _showFavouritesOnly = false;
   //   notifyListeners();
   // }
+  Future<void> fetchandSetProducts() async {
+    const urlString =
+        'https://shop-app-test-315b9-default-rtdb.europe-west1.firebasedatabase.app/products.json';
+    Uri uri = Uri.parse(urlString);
+    try {
+      final response = await http.get(uri);
+    } catch (error) {
+      throw error;
+    }
+  }
 
   Future<void> addproduct(Product product) async {
     const urlString =
-        'https://shop-app-test-315b9-default-rtdb.europe-west1.firebasedatabase.app/products';
+        'https://shop-app-test-315b9-default-rtdb.europe-west1.firebasedatabase.app/products.json';
     try {
       Uri uri = Uri.parse(urlString);
       final response = await http.post(uri,
