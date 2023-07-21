@@ -11,6 +11,19 @@ class CartItem {
       required this.title,
       required this.quantity,
       required this.price});
+  String getProductNameID() {
+    return "Product Name : $title Product id : $id";
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'price': price,
+      'quantity': quantity,
+      // Add any other properties you want to include in the map
+    };
+  }
 }
 
 class Cart with ChangeNotifier {
